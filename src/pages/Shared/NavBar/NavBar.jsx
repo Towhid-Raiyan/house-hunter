@@ -1,115 +1,72 @@
-import { useContext} from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
+import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import useRenter from "../../../hook/useRenter";
-import useOwner from "../../../hook/useOwner";
+import Container from "../../../Layout/Container/Container";
+import { MdSpaceDashboard } from "react-icons/md";
+import { PiNewspaperClipping } from "react-icons/pi";
+import { toast } from "react-toastify";
+
+import logo from "../../../assets/logo/logo2.png";
 
 const NavBar = () => {
-    const { name, user, logOut, photo } = useContext(AuthContext);
-    // console.log(name);
+    const { user, logOut } = useContext(AuthContext);
+    const navigate = useNavigate();
+    
     const handleLogout = () => {
-        logOut()
-            .then(() => {
-                toast.error("Logout Successful", { autoClose: 2000 });
-                // Swal.fire("Logout", "LogOut Successfull", "success");
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const res = logOut();
+        toast.success(res);
+        navigate("/login");
     };
-    //
-    const [isRenter] = useRenter();
-    const [isOwner] = useOwner();
-    // console.log(isAdmin, isInstructor, isStudent);
-
     const navOptions = (
         <>
             <li>
                 <NavLink
                     to="/"
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    className={({ isActive }) =>
+                        isActive ? "navbar-active" : "navbar-not-active"
+                    }
                 >
-                    Home
+                    <FaHome />
+                    <span>Home</span>
                 </NavLink>
             </li>
-
             <li>
-                {" "}
-                <NavLink
-                    to="/classes"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                    Classes
-                </NavLink>{" "}
+                {user ? (
+                    <NavLink
+                        to={
+                            user?.role === "House Renter"
+                                ? "/dashboard/managebookings"
+                                : "/dashboard/home"
+                        }
+                        className={({ isActive }) =>
+                            isActive ? "navbar-active" : "navbar-not-active"
+                        }
+                    >
+                        <MdSpaceDashboard />
+                        <span>Dashboard</span>
+                    </NavLink>
+                ) : (
+                    <></>
+                )}
             </li>
             <li>
-                {" "}
                 <NavLink
-                    to="/instructors"
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    to="about"
+                    className={({ isActive }) =>
+                        isActive ? "navbar-active" : "navbar-not-active"
+                    }
                 >
-                    Instructors
-                </NavLink>{" "}
+                    <PiNewspaperClipping />
+                    <span>About Us</span>
+                </NavLink>
             </li>
-
-            {isOwner && (
-                <li>
-                    <NavLink
-                        to="/dashboard/manageUsers"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                        Dashboard
-                    </NavLink>
-                </li>
-            )}
-            {/* {isInstructor && (
-                <li>
-                    <NavLink
-                        to="/dashboard/viewCourse"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                        Dashboard
-                    </NavLink>
-                </li>
-            )} */}
-            {isRenter && (
-                <li>
-                    <NavLink
-                        to="/dashboard/selectedClasses"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                        Dashboard
-                    </NavLink>
-                </li>
-            )}
-            {user ? (
-                <li>
-                    <button onClick={handleLogout}>Logout</button>
-                </li>
-            ) : (
-                <li>
-                    <NavLink
-                        to="/login"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                        Login
-                    </NavLink>
-                </li>
-            )}
-            
         </>
     );
-
     return (
-        <>
-            <ToastContainer />
-
-            <div className="navbar z-10 bg-opacity-60 bg-red-800 text-white dark:bg-slate-950 max-w-screen-xl rounded">
-                <div className="navbar-start">
+        <Container>
+            <div className="navbar border-b-[1px] ">
+                <div className="navbar-start ">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
                             <svg
@@ -129,49 +86,38 @@ const NavBar = () => {
                         </label>
                         <ul
                             tabIndex={0}
-                            className="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 bg-black bg-opacity-60"
+                            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
                         >
                             {navOptions}
                         </ul>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <Link to={"/"}>
-                            <div className="w-28 rounded-full ms-6">
-                                <img src='https://i.ibb.co/0mNqk2s/logo.png' className="w-28 h-10" />
-                            </div>
-                        </Link>
-
-
-                    </div>
+                    <Link to="/" className="w-12">
+                        <img src={logo} alt="" />
+                    </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="flex gap-10 px-1">{navOptions}</ul>
+                    <ul className="menu menu-horizontal px-1">{navOptions}</ul>
                 </div>
-                <div className="invisible lg:navbar-end  lg:visible me-10 ">
-                    <div className="avatar placeholder rounded-full ring ring-danger ring-offset-base-100 ring-offset-2">
-                        <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
-                            {user ? (
-                                <img id="yes-element" src={photo} alt={name} />
-                            ) : (
-                                <span id="no-element">X</span>
-                            )}
-
-                            {/* <span id="no-element">X</span> */}
-                        </div>
-                    </div>
-                    <Tooltip
-                        place="right"
-                        anchorSelect="#yes-element"
-                        content={name}
-                    />
-                    <Tooltip
-                        place="right"
-                        anchorSelect="#no-element"
-                        content="No User"
-                    />
+                <div className="navbar-end">
+                    {user ? (
+                        <>
+                            <button
+                                className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="login">
+                            <button className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow">
+                                Login
+                            </button>
+                        </Link>
+                    )}
                 </div>
             </div>
-        </>
+        </Container>
     );
 };
 
