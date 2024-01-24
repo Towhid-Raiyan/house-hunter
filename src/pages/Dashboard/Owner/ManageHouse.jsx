@@ -38,7 +38,7 @@ const ManageHouse = () => {
                 headers: { Authorization: `Bearer ${token}` },
             };
             const response = await axios.get(
-                `http://localhost:3000/api/houses/${user?.email}`,
+                `https://house-hunter-server-gold-nine.vercel.app/api/houses/${user?.email}`,
                 config
             );
             setHouses(response.data.houses);
@@ -56,7 +56,7 @@ const ManageHouse = () => {
                 headers: { Authorization: `Bearer ${token}` },
             };
             await axios.delete(
-                `http://localhost:3000/api/houses/${houseId}`,
+                `https://house-hunter-server-gold-nine.vercel.app/api/houses/${houseId}`,
                 config
             );
             setHouses((prevHouses) =>
@@ -76,7 +76,7 @@ const ManageHouse = () => {
                 headers: { Authorization: `Bearer ${token}` },
             };
             await axios.put(
-                `http://localhost:3000/api/houses/${houseId}`,
+                `https://house-hunter-server-gold-nine.vercel.app/api/houses/${houseId}`,
                 updatedData,
                 config
             );

@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
     const registerUser = async (fullName, email, password, role) => {
         try {
             const response = await axios.post(
-                "http://localhost:3000/api/register",
+                "https://house-hunter-server-gold-nine.vercel.app/api/register",
                 {
                     fullName,
                     email,
@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
         try {
             // Make a POST request to the login endpoint
             const response = await axios.post(
-                "http://localhost:3000/api/login",
+                "https://house-hunter-server-gold-nine.vercel.app/api/login",
                 {
                     email,
                     password,

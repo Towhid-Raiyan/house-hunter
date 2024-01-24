@@ -34,7 +34,7 @@ const HouseCard = ({ house }) => {
                 };
                 console.log(bookingData);
                 const response = await fetch(
-                    "http://localhost:3000/api/bookings",
+                    "https://house-hunter-server-gold-nine.vercel.app/api/bookings",
                     {
                         method: "POST",
                         headers: {
@@ -75,7 +75,7 @@ const HouseCard = ({ house }) => {
 
                 <div className="mt-2">
                     <dl>
-                        <p className="text-md mb-2">Owner: {name}</p>
+                        <p className="text-md mb-2">Name: {name}</p>
                         <div>
                             <dt className="sr-only">Price</dt>
 

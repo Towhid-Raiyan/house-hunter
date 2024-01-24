@@ -32,7 +32,7 @@ const HouseListing = () => {
         try {
             const queryParams = new URLSearchParams(filters).toString();
             const response = await fetch(
-                `http://localhost:3000/api/houses?page=${queryParams}`
+                `https://house-hunter-server-gold-nine.vercel.app/api/houses?page=${queryParams}`
             );
             const data = await response.json();
 
@@ -53,7 +53,7 @@ const HouseListing = () => {
     //     try {
     //         const queryParams = new URLSearchParams(filters).toString();
     //         const response = await fetch(
-    //             `http://localhost:3000/api/houses?page=${currentPage}&${queryParams}`
+    //             `https://house-hunter-server-gold-nine.vercel.app/api/houses?page=${currentPage}&${queryParams}`
     //         );
     //         const data = await response.json();
 

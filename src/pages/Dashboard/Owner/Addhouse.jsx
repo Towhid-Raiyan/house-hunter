@@ -22,7 +22,7 @@ const Addhouse = () => {
             const token = localStorage.getItem("token");
 
             const response = await axios.post(
-                "http://localhost:3000/api/houses",
+                "https://house-hunter-server-gold-nine.vercel.app/api/houses",
                 data,
                 {
                     headers: {

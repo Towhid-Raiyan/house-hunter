@@ -20,7 +20,7 @@ const BookingCards = ({ booking, handleRemoveBooking }) => {
         const token = localStorage.getItem("token");
         try {
             const response = await axios.get(
-                `http://localhost:3000/api/house/${houseId}`,
+                `https://house-hunter-server-gold-nine.vercel.app/api/house/${houseId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
